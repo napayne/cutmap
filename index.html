@@ -24,11 +24,18 @@
                     $("#width_text").val("");
                 });
                 
+                $("#add_sheet").click(function(){
+                    append_piece_size("84.0", "48.0");
+                    store_piece("84.0", "48.0");
+                });
+                
                 $("#add_piece").click(function(){
                     input_height = $("#height_text").val();
                     input_width = $("#width_text").val();
-                    append_piece_size(input_width, input_height);
-                    store_piece(input_width, input_height);
+                    if (input_height != "" && input_width != "") {
+                        append_piece_size(input_width, input_height);
+                        store_piece(input_width, input_height);
+                    }
                 });
             });
         </script>
@@ -53,6 +60,10 @@
                         <br>
                         <button name="add_piece" id="add_piece">ADD</button>
                         <button name="clear_piece" id="clear_piece">CLEAR</button>
+                        <br>
+                        <br>
+                        Common Pieces:<br>
+                        <button name="add_sheet" id="add_sheet">ADD SHEET (84,48)</button>
                         <br>
                     </td>
                     <td valign="top">
