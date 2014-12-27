@@ -4,6 +4,7 @@
         <script>
             $(document).ready(function(){
                 var requested_pieces = [];
+                var material_list = [];
                 
                 function append_piece_size(width, height) {
                     $("#piece_list").append(width+", "+height+"\n");
@@ -24,9 +25,28 @@
                     $("#width_text").val("");
                 });
                 
-                $("#add_sheet").click(function(){
-                    append_piece_size("84.0", "48.0");
-                    store_piece("84.0", "48.0");
+                $("#clear_four").click(function(){
+                    $("#length_four_width").val("");
+                });
+                
+                $("#clear_three").click(function(){
+                    $("#length_three_width").val("");
+                });
+                
+                $("#add_four").click(function(){
+                    input_length = $("#length_four_width").val();
+                    if (input_length != "") {
+                        append_piece_size(input_length, "4.0");
+                        store_piece(input_length, "4.0");
+                    }
+                });
+                
+                $("#add_three").click(function(){
+                    input_length = $("#length_three_width").val();
+                    if (input_length != "") {
+                        append_piece_size(input_length, "3.0");
+                        store_piece(input_length, "3.0");
+                    }
                 });
                 
                 $("#add_piece").click(function(){
@@ -35,6 +55,14 @@
                     if (input_height != "" && input_width != "") {
                         append_piece_size(input_width, input_height);
                         store_piece(input_width, input_height);
+                    }
+                });
+                
+                $("#add_material").click(function(){
+                    input_material = $("#new_material").val();
+                    if (input_material != "") {
+                       $("materials").append(input_material+"<br>");
+                        material_list.push(input_material);
                     }
                 });
             });
@@ -62,13 +90,27 @@
                         <button name="clear_piece" id="clear_piece">CLEAR</button>
                         <br>
                         <br>
-                        Common Pieces:<br>
-                        <button name="add_sheet" id="add_sheet">ADD SHEET (84,48)</button>
+                        Standard Width Pieces:<br>
+                        <input type="text" name="length_four_width" id="length_four_width">
+                        <button name="add_four" id="add_four">ADD 4" Width</button>
+                        <button name="clear_four" id="clear_four">CLEAR</button>
+                        <br>
+                        <input type="text" name="length_three_width" id="length_three_width">
+                        <button name="add_three" id="add_three">ADD 3" Width</button>
+                        <button name="clear_three" id="clear_three">CLEAR</button>
                         <br>
                     </td>
                     <td valign="top">
                         Piece List (w, h):<br>
                         <textarea id="piece_list"></textarea>
+                    </td>
+                    <td valign="top">
+                        Total Pieces: <total>0</total><br>
+                        <br>
+                        Materials:<br>
+                        <input type="text" name="new_material" id="new_material">
+                        <button name="add_material" id="add_material">ADD</button><br>
+                        <materials></materials>
                     </td>
                 </tr>
                 
