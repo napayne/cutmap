@@ -7,10 +7,12 @@
                 var material_list = [];
                 
                 function add_new_piece(width_str, height_str) {
-                    input_material = $("#material_select").val();
+                    input_material_index = $("#material_select").val();
+                    input_material = $("#material_select option[value='"+input_material_index.toString()+"']").text();
+                    
                     if (input_material != "") {
                         append_piece_size(requested_pieces.length, width_str, height_str, input_material);
-                        new_total = store_piece(width_str, height_str, input_material);
+                        new_total = store_piece(width_str, height_str, input_material_index);
                         $("total").html(new_total.toString());
                     }
                 }
@@ -20,14 +22,15 @@
                     $("#piece_list").append(one_index+" - "+material+" - "+width+"w, "+height+"h\n");
                 }
                 
-                function store_piece(width_str, height_str, material_str) {
+                function store_piece(width_str, height_str, material_index) {
                     width = parseFloat(width_str);
                     height = parseFloat(height_str);
                     new_piece = {
                         width:width, 
                         height:height,
-                        material:material_str
+                        material:material_index
                     };
+                    material_list[material_index].area_requested += width*height; // Running area
                     return requested_pieces.push(new_piece);
                 }
                 
@@ -71,11 +74,15 @@
                     // Should probably also check for duplicate materials
                     if (input_material != "") {
                        $("materials").append(input_material+"<br>");
-                        material_list.push(input_material);
+                        new_material = {
+                          name:input_material,
+                            area_requested:0.0
+                        };
+                        list_length = material_list.push(new_material);
                         $("#new_material").val("");
                         $('#material_select')
                          .append($("<option></option>")
-                         .attr("value",input_material)
+                         .attr("value",list_length-1)
                          .text(input_material)); 
                     }
                 });
