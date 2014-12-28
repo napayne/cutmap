@@ -6,8 +6,15 @@
                 var requested_pieces = [];
                 var material_list = [];
                 
-                function append_piece_size(width, height) {
-                    $("#piece_list").append(width+", "+height+"\n");
+                function add_new_piece(width_str, height_str) {
+                    append_piece_size(requested_pieces.length, width_str, height_str);
+                    new_total = store_piece(width_str, height_str);
+                    $("total").html(new_total.toString());
+                }
+                
+                function append_piece_size(index, width, height) {
+                    one_index = (index+1).toString();
+                    $("#piece_list").append(one_index+" - "+width+"w, "+height+"h\n");
                 }
                 
                 function store_piece(width_str, height_str) {
@@ -17,7 +24,7 @@
                         width:width, 
                         height:height
                     };
-                    requested_pieces.push(new_piece);
+                    return requested_pieces.push(new_piece);
                 }
                 
                 $("#clear_piece").click(function(){
@@ -36,16 +43,14 @@
                 $("#add_four").click(function(){
                     input_length = $("#length_four_width").val();
                     if (input_length != "") {
-                        append_piece_size(input_length, "4.0");
-                        store_piece(input_length, "4.0");
+                        add_new_piece("4.0", input_length);
                     }
                 });
                 
                 $("#add_three").click(function(){
                     input_length = $("#length_three_width").val();
                     if (input_length != "") {
-                        append_piece_size(input_length, "3.0");
-                        store_piece(input_length, "3.0");
+                        add_new_piece("3.0", input_length);
                     }
                 });
                 
@@ -53,16 +58,17 @@
                     input_height = $("#height_text").val();
                     input_width = $("#width_text").val();
                     if (input_height != "" && input_width != "") {
-                        append_piece_size(input_width, input_height);
-                        store_piece(input_width, input_height);
+                        add_new_piece(input_width, input_height);
                     }
                 });
                 
                 $("#add_material").click(function(){
                     input_material = $("#new_material").val();
+                    // Should probably also check for duplicate materials
                     if (input_material != "") {
                        $("materials").append(input_material+"<br>");
                         material_list.push(input_material);
+                        $("#new_material").val("");
                     }
                 });
             });
