@@ -7,22 +7,26 @@
                 var material_list = [];
                 
                 function add_new_piece(width_str, height_str) {
-                    append_piece_size(requested_pieces.length, width_str, height_str);
-                    new_total = store_piece(width_str, height_str);
-                    $("total").html(new_total.toString());
+                    input_material = $("#material_select").val();
+                    if (input_material != "") {
+                        append_piece_size(requested_pieces.length, width_str, height_str, input_material);
+                        new_total = store_piece(width_str, height_str, input_material);
+                        $("total").html(new_total.toString());
+                    }
                 }
                 
-                function append_piece_size(index, width, height) {
+                function append_piece_size(index, width, height, material) {
                     one_index = (index+1).toString();
-                    $("#piece_list").append(one_index+" - "+width+"w, "+height+"h\n");
+                    $("#piece_list").append(one_index+" - "+material+" - "+width+"w, "+height+"h\n");
                 }
                 
-                function store_piece(width_str, height_str) {
+                function store_piece(width_str, height_str, material_str) {
                     width = parseFloat(width_str);
                     height = parseFloat(height_str);
                     new_piece = {
                         width:width, 
-                        height:height
+                        height:height,
+                        material:material_str
                     };
                     return requested_pieces.push(new_piece);
                 }
@@ -69,6 +73,10 @@
                        $("materials").append(input_material+"<br>");
                         material_list.push(input_material);
                         $("#new_material").val("");
+                        $('#material_select')
+                         .append($("<option></option>")
+                         .attr("value",input_material)
+                         .text(input_material)); 
                     }
                 });
             });
@@ -88,6 +96,8 @@
                 <tr>
                     <td valign="top">
                         Add Pieces:<br>
+                        Material: <select id="material_select"></select><br><br>
+                        Generic Size:<br>
                         Width (inches, decimal): <input type="text" name="width" id="width_text">
                         <br>
                         Height (inches, decimal): <input type="text" name="height" id="height_text">
